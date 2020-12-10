@@ -1,0 +1,22 @@
+.register--container {
+  display: flex;
+  flex-direction: column;
+}
+
+.registerForm--container {
+  display: flex;
+  justify-content: center;
+}
+
+.registerSubmitButton--formGroup {
+  display: flex;
+  justify-content: center;
+}
+
+label {
+  font-size: 1.3rem;
+}
+
+.login--link {
+  text-align: center;
+}
