@@ -9,7 +9,7 @@ GO
 
 DROP TABLE IF EXISTS [UserProfile];
 DROP TABLE IF EXISTS [Dose];
-DROP TABLE IF EXISTS [Range];
+DROP TABLE IF EXISTS [INRRange];
 DROP TABLE IF EXISTS [Reminder];
 DROP TABLE IF EXISTS [Level];
 GO
@@ -33,14 +33,14 @@ CREATE TABLE [Dose] (
   CONSTRAINT [FK_Dose_UserProfile] FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
 )
 
-CREATE TABLE [Range] (
+CREATE TABLE [INRRange] (
   [Id] integer PRIMARY KEY IDENTITY,
   [UserProfileId] integer NOT NULL,
   [MinLevel] decimal NOT NULL,
   [MaxLevel] decimal NOT NULL,
-  [isActive] integer NOT NULL,
+  [IsActive] integer NOT NULL,
 
-  CONSTRAINT [FK_Range_UserProfile] FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
+  CONSTRAINT [FK_INRRange_UserProfile] FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
 )
 
 CREATE TABLE [Reminder] (
@@ -51,7 +51,7 @@ CREATE TABLE [Reminder] (
 
 CREATE TABLE [Level] (
   [Id] integer PRIMARY KEY IDENTITY,
-  [RangeId] integer NOT NULL,
+  [INRRangeId] integer NOT NULL,
   [DoseId] integer NOT NULL,
   [ReminderId] integer,
   [DateDrawn] datetime NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE [Level] (
   [Result] decimal NOT NULL,
   [InRange] integer NOT NULL,
 
-  CONSTRAINT [FK_Level_Range] FOREIGN KEY ([RangeId]) REFERENCES [Range] ([Id]),
+  CONSTRAINT [FK_Level_INRRange] FOREIGN KEY ([INRRangeId]) REFERENCES [INRRange] ([Id]),
   CONSTRAINT [FK_Level_Reminder] FOREIGN KEY ([ReminderId]) REFERENCES [Reminder] ([Id]),
   CONSTRAINT [FK_Level_Dose] FOREIGN KEY ([DoseId]) REFERENCES [Dose] ([Id])
 )
