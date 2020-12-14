@@ -36,8 +36,8 @@ CREATE TABLE [Dose] (
 CREATE TABLE [INRRange] (
   [Id] integer PRIMARY KEY IDENTITY,
   [UserProfileId] integer NOT NULL,
-  [MinLevel] decimal NOT NULL,
-  [MaxLevel] decimal NOT NULL,
+  [MinLevel] float NOT NULL,
+  [MaxLevel] float NOT NULL,
   [IsActive] integer NOT NULL,
 
   CONSTRAINT [FK_INRRange_UserProfile] FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
@@ -56,7 +56,7 @@ CREATE TABLE [Level] (
   [ReminderId] integer,
   [DateDrawn] datetime NOT NULL,
   [Comment] NVARCHAR(500),
-  [Result] decimal NOT NULL,
+  [Result] float NOT NULL,
   [InRange] integer NOT NULL,
 
   CONSTRAINT [FK_Level_INRRange] FOREIGN KEY ([INRRangeId]) REFERENCES [INRRange] ([Id]),

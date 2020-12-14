@@ -5,16 +5,12 @@ using System.Threading.Tasks;
 
 namespace ChartINR.Models
 {
-    public class INRRange
+    public class Dose
     {
         public int Id { get; set; }
-
         public int UserProfileId { get; set; }
-
-        public double MinLevel { get; set; }
-
-        public double MaxLevel { get; set; }
-
+        public DateTime DateInput {get; set;}
+        public string WeeklyDose { get; set; }
         public int IsActive { get; set; }
     }
 }

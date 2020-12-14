@@ -31,6 +31,7 @@ namespace ChartINR
         {
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IINRRangeRepository, INRRangeRepository>();
+            services.AddTransient<ILevelRepository, LevelRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
