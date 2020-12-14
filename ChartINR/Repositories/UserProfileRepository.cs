@@ -20,9 +20,9 @@ namespace ChartINR.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, up.FirebaseUserId, up.DisplayName, up.Email, up.ImageLocation
+                        SELECT up.Id, up.FirebaseUserId, up.Username, up.Email
                         FROM UserProfile up
-                        WHERE FirebaseUserId = @FirebaseuserId";
+                        WHERE FirebaseUserId = @FirebaseUserId";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
 
@@ -35,9 +35,9 @@ namespace ChartINR.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                            Username = DbUtils.GetString(reader, "Username"),
                             Email = DbUtils.GetString(reader, "Email"),
-                            Username = DbUtils.GetString(reader, "Username")
-
+                           
                         };
                     }
                     reader.Close();
@@ -58,10 +58,9 @@ namespace ChartINR.Repositories
                                         OUTPUT INSERTED.ID
                                         VALUES (@FirebaseUserId, @Username, @Email)";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
-                    DbUtils.AddParameter(cmd, "@DisplayName", userProfile.Username);
+                    DbUtils.AddParameter(cmd, "@Username", userProfile.Username);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
                     
-
                     userProfile.Id = (int)cmd.ExecuteScalar();
                 }
             }

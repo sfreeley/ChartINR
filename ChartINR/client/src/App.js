@@ -1,17 +1,18 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router } from "react-router-dom";
-import { UserProfileProvider } from "./providers/UserProfileProvider";
 import ApplicationViews from "./components/ApplicationViews";
+import { UserProfileProvider } from "./providers/UserProfileProvider";
+import { RangeProvider } from "./providers/RangeProvider";
 
 function App() {
   return (
     <Router>
       <UserProfileProvider>
-
-        {/* <Header /> */}
-        <ApplicationViews />
-
+        <RangeProvider>
+          {/* <Header /> */}
+          <ApplicationViews />
+        </RangeProvider>
       </UserProfileProvider>
     </Router>
   );

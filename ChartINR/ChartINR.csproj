@@ -2,9 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp5.0</TargetFramework>
+    <UserSecretsId>2e49af84-2ff0-45a5-8abe-2cc62ac8f411</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.0" />
   </ItemGroup>
 
