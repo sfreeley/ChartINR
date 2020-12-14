@@ -11,7 +11,7 @@ const Level = ({ level }) => {
         <>
 
             <Card>
-                {level.result}
+                {level.result.toFixed(1)}
                 {/* {level.dateDrawn} */}
             </Card>
 
