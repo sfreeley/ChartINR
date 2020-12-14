@@ -20,11 +20,11 @@ namespace ChartINR.Controllers
             _levelRepository = levelRepository;
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("user/{id}")]
+        public IActionResult Get(int id)
         {
 
-            return Ok(_levelRepository.GetAllLevelsForRange());
+            return Ok(_levelRepository.GetAllLevelsForRangeByUserId(id));
         }
     }
 }

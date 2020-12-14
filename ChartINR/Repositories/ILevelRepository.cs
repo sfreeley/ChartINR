@@ -5,6 +5,6 @@ namespace ChartINR.Repositories
 {
     public interface ILevelRepository
     {
-        List<Level> GetAllLevelsForRange();
+        List<Level> GetAllLevelsForRangeByUserId(int id);
     }
 }

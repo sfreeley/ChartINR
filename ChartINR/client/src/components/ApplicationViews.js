@@ -12,11 +12,11 @@ export default function ApplicationViews() {
     return (
         <main>
             <Switch>
-                <Route path="/levels">
-                    <LevelList />
+                <Route path="/levels/:id">
+                    {isLoggedIn ? <LevelList /> : <Redirect to="/login" />}
                 </Route>
-                <Route path="/">
-                    <Home />
+                <Route path="/" exact>
+                    {isLoggedIn ? <Home /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/login">
                     <Login />

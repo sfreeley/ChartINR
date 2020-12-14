@@ -14,7 +14,7 @@ namespace ChartINR.Repositories
         public LevelRepository(IConfiguration config) : base(config) { }
 
         //all levels
-        public List<Level> GetAllLevelsForRange()
+        public List<Level> GetAllLevelsForRangeByUserId(int id)
         {
             using (var conn = Connection)
             {
@@ -37,9 +37,9 @@ namespace ChartINR.Repositories
                          LEFT JOIN INRRange ra ON l.INRRangeId = ra.Id
                          LEFT JOIN UserProfile up ON ra.UserProfileId = up.Id
                          LEFT JOIN Dose d ON d.UserProfileId = up.Id
-                         WHERE ra.IsActive = 1 AND d.IsActive = 1 AND re.Id IS NOT NULL
+                         WHERE ra.UserProfileId = @userProfileId AND ra.IsActive = 1 AND d.IsActive = 1 AND re.Id IS NOT NULL
                         ";
-
+                    cmd.Parameters.AddWithValue("@userProfileId", id);
                     var reader = cmd.ExecuteReader();
                     List<Level> levels = new List<Level>();
 
