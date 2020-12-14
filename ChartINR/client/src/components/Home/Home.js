@@ -22,6 +22,7 @@ const Home = () => {
         // .then(() => history.push("/results"))
         setIsLoading(false);
     }
+
     return (
         <div className="postForm--container">
             <div className="postFormSecondary--container">
@@ -42,7 +43,7 @@ const Home = () => {
                         <FormGroup>
                             {/* <Label className="ManufacturerLabel"><strong>Manufacturer</strong></Label> */}
                             <Input
-                                className="newPuzzle"
+                                className="INRRange"
                                 onChange={(e) => setMaxLevel(parseFloat(e.target.value))}
                                 type="text"
                                 id="maxLevel"
