@@ -13,7 +13,7 @@ const WarfarinUserProfile = () => {
 
     const getMostRecent = () => {
         getMostRecentLevel(parseInt(id)).then(setMostRecentLevel);
-        getLevels(parseInt(id));
+        // getLevels(parseInt(id));
     }
 
     useEffect(() => {
@@ -34,7 +34,6 @@ const WarfarinUserProfile = () => {
                 </ToastBody>
 
                 <Button>Edit</Button>
-
             </Toast >
 
 
