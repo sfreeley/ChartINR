@@ -59,6 +59,54 @@ namespace ChartINR.Repositories
             }
         }
 
+        public Level GetMostRecentLevel(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                         SELECT TOP 1 l.Id AS LevelId, l.INRRangeId, l.DoseId AS DoseId, l.ReminderId AS ReminderId, l.DateDrawn, l.Result, l.Comment, l.InRange,
+
+                         up.Id AS UserProfileId, up.Username,
+
+                         ra.WarfarinUserId, ra.MinLevel, ra.MaxLevel, ra.IsActive AS RangeIsActive,
+
+                         re.DateForNextLevel, re.Completed,
+
+                         wu.DisplayName,
+
+                         d.DateInput, d.WeeklyDose, d.IsActive AS DoseIsActive
+
+                         FROM Level l
+                         LEFT JOIN Reminder re ON l.ReminderId = re.Id
+                         LEFT JOIN INRRange ra ON l.INRRangeId = ra.Id 
+                         LEFT JOIN Dose d ON l.DoseId = d.Id
+                         LEFT JOIN WarfarinUser wu ON d.WarfarinUserId = wu.Id
+                         LEFT JOIN UserProfile up ON wu.UserProfileId = up.Id
+                             
+                         WHERE wu.Id = @warfarinUserId AND ra.IsActive = 1 AND re.Id IS NOT NULL
+                         ORDER BY l.Id DESC
+                        ";
+                    cmd.Parameters.AddWithValue("@warfarinUserId", id);
+                    var reader = cmd.ExecuteReader();
+                    Level level = new Level();
+
+                    if (reader.Read())
+                    {
+                        level = NewLevelFromReader(reader);
+                    }
+
+                    reader.Close();
+                    return level;
+                }
+
+            }
+
+
+        }
+
         private Level NewLevelFromReader(SqlDataReader reader)
         {
             return new Level()

@@ -5,17 +5,20 @@ import ApplicationViews from "./components/ApplicationViews";
 import { UserProfileProvider } from "./providers/UserProfileProvider";
 import { RangeProvider } from "./providers/RangeProvider";
 import { LevelProvider } from "./providers/LevelProvider";
+import { WarfarinUserProvider } from "./providers/WarfarinUserProvider";
 
 function App() {
   return (
     <Router>
       <UserProfileProvider>
-        <RangeProvider>
-          <LevelProvider>
-            {/* <Header /> */}
-            <ApplicationViews />
-          </LevelProvider>
-        </RangeProvider>
+        <WarfarinUserProvider>
+          <RangeProvider>
+            <LevelProvider>
+              {/* <Header /> */}
+              <ApplicationViews />
+            </LevelProvider>
+          </RangeProvider>
+        </WarfarinUserProvider>
       </UserProfileProvider>
     </Router>
   );

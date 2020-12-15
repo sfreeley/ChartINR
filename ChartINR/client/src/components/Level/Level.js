@@ -12,6 +12,7 @@ const Level = ({ level, hidden }) => {
             <Toast className="levelToast" hidden={hidden} >
                 <ToastHeader>
                     Logged on: <strong>{currentDate(level.dateDrawn)}</strong>
+                    <p> Weekly Dose: {level.dose.weeklyDose}</p>
                 </ToastHeader>
 
                 <ToastBody>

@@ -11,5 +11,6 @@ namespace ChartINR.Models
         public int UserProfileId { get; set; }
         public string DisplayName { get; set; }
         
+        public UserProfile UserProfile { get; set; }
     }
 }

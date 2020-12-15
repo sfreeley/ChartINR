@@ -26,5 +26,12 @@ namespace ChartINR.Controllers
 
             return Ok(_levelRepository.GetAllLevelsForRangeByUserId(id));
         }
+
+        [HttpGet("mostrecent/{id}")]
+        public IActionResult GetMostRecentLevel(int id)
+        {
+
+            return Ok(_levelRepository.GetMostRecentLevel(id));
+        }
     }
 }
