@@ -23,7 +23,7 @@ namespace ChartINR.Repositories
                         INSERT INTO INRRange ( UserProfileId, MinLevel, MaxLevel, IsActive )
                         OUTPUT INSERTED.ID
                         VALUES ( @UserProfileId, @MinLevel, @MaxLevel, @IsActive )";
-                    DbUtils.AddParameter(cmd, "@UserProfileId", inrRange.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@UserProfileId", inrRange.WarfarinUserId);
                     DbUtils.AddParameter(cmd, "@MinLevel", inrRange.MinLevel);
                     DbUtils.AddParameter(cmd, "@MaxLevel", inrRange.MaxLevel);
                     DbUtils.AddParameter(cmd, "@IsActive", inrRange.IsActive);

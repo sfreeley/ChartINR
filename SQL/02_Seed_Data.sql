@@ -7,11 +7,19 @@ insert into UserProfile (Id, Username, Email, FirebaseUserId) values (1, 'hello1
 insert into UserProfile (Id, Username, Email, FirebaseUserId) values (2, 'woot234', 'woot@woot.com', 'lpu1VNtHF6cnrWSe4eQ7zsH1sD42');
 set identity_insert [UserProfile] off
 
+--WarfarinUser
+set identity_insert [WarfarinUser] on
+insert into WarfarinUser (Id, UserProfileId, DisplayName) values (1, 1, 'test1');
+insert into WarfarinUser (Id, UserProfileId, DisplayName) values (2, 1, 'test2');
+insert into WarfarinUser (Id, UserProfileId, DisplayName) values (3, 2, 'test3');
+insert into WarfarinUser (Id, UserProfileId, DisplayName) values (4, 2, 'test4');
+set identity_insert [WarfarinUser] off
+
 --Range
 set identity_insert [INRRange] on
-insert into [INRRange] ([Id], [UserProfileId], [MinLevel], [MaxLevel], [isActive]) values (1, 1, 2.0, 3.0, 1);
-insert into [INRRange] ([Id], [UserProfileId], [MinLevel], [MaxLevel], [isActive]) values (2, 1, 2.5, 3.5, 0); 
-insert into [INRRange] ([Id], [UserProfileId], [MinLevel], [MaxLevel], [isActive]) values (3, 2, 2.0, 3.0, 1);
+insert into [INRRange] ([Id], [WarfarinUserId], [MinLevel], [MaxLevel], [isActive]) values (1, 1, 2.0, 3.0, 1);
+insert into [INRRange] ([Id], [WarfarinUserId], [MinLevel], [MaxLevel], [isActive]) values (2, 1, 2.5, 3.5, 0); 
+insert into [INRRange] ([Id], [WarfarinUserId], [MinLevel], [MaxLevel], [isActive]) values (3, 2, 2.0, 3.0, 1);
 set identity_insert [INRRange] off
 
 --Reminder
@@ -25,7 +33,7 @@ insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (6, '2020-
 insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (7, '2020-02-25', 1);
 insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (8, '2020-03-17', 1);
 insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (9, '2020-04-06', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (10, '2020-04-30', 1);
+insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (10,'2020-04-30', 1);
 insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (11, '2020-05-26', 1);
 insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (12, '2020-06-24', 1);
 insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (13, '2020-07-08', 1);
@@ -40,9 +48,9 @@ set identity_insert [Reminder] off
 
 --Dose
 set identity_insert [Dose] on
-insert into [Dose] ([Id], [UserProfileId], [DateInput], [WeeklyDose], [IsActive]) values (1, 1, '2019-12-16', '35mg', 0);
-insert into [Dose] ([Id], [UserProfileId], [DateInput], [WeeklyDose], [IsActive]) values (2, 1, '2020-01-31', '32.5mg', 1);
-insert into [Dose] ([Id], [UserProfileId], [DateInput], [WeeklyDose], [IsActive]) values (3, 2, '2020-03-15', '28mg', 1);
+insert into [Dose] ([Id], [WarfarinUserId], [DateInput], [WeeklyDose], [IsActive]) values (1, 1, '2019-12-16', '35mg', 0);
+insert into [Dose] ([Id], [WarfarinUserId], [DateInput], [WeeklyDose], [IsActive]) values (2, 1, '2020-01-31', '32.5mg', 1);
+insert into [Dose] ([Id], [WarfarinUserId], [DateInput], [WeeklyDose], [IsActive]) values (3, 2, '2020-03-15', '28mg', 1);
 set identity_insert [Dose] off
 
 --Level

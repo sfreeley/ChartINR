@@ -8,8 +8,7 @@ export function RangeProvider(props) {
     const { getToken } = useContext(UserProfileContext)
 
     const addRange = (range) => {
-
-        getToken().then((token) => fetch(apiUrl, {
+        return getToken().then((token) => fetch(apiUrl, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,

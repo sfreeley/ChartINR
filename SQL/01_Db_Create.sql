@@ -8,6 +8,7 @@ USE [ChartINR]
 GO
 
 DROP TABLE IF EXISTS [UserProfile];
+DROP TABLE IF EXISTS [WarfarinUser];
 DROP TABLE IF EXISTS [Dose];
 DROP TABLE IF EXISTS [INRRange];
 DROP TABLE IF EXISTS [Reminder];
@@ -23,30 +24,39 @@ CREATE TABLE [UserProfile] (
   CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId)
 )
 
-CREATE TABLE [Dose] (
+CREATE TABLE [WarfarinUser] (
   [Id] integer PRIMARY KEY IDENTITY,
   [UserProfileId] integer NOT NULL,
+  [DisplayName] NVARCHAR(100) NOT NULL,
+  
+   CONSTRAINT [FK_WarfarinUser_UserProfile] FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
+)
+
+CREATE TABLE [Dose] (
+  [Id] integer PRIMARY KEY IDENTITY,
+  [WarfarinUserId] integer NOT NULL,
   [DateInput] datetime NOT NULL,
   [WeeklyDose] NVARCHAR(100) NOT NULL,
   [IsActive] integer NOT NULL,
 
-  CONSTRAINT [FK_Dose_UserProfile] FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
+  CONSTRAINT [FK_Dose_WarfarinUser] FOREIGN KEY ([WarfarinUserId]) REFERENCES [WarfarinUser] ([Id])
 )
 
 CREATE TABLE [INRRange] (
   [Id] integer PRIMARY KEY IDENTITY,
-  [UserProfileId] integer NOT NULL,
-  [MinLevel] decimal NOT NULL,
-  [MaxLevel] decimal NOT NULL,
+  [WarfarinUserId] integer NOT NULL,
+  [MinLevel] float NOT NULL,
+  [MaxLevel] float NOT NULL,
   [IsActive] integer NOT NULL,
 
-  CONSTRAINT [FK_INRRange_UserProfile] FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
+  CONSTRAINT [FK_INRRange_WarfarinUser] FOREIGN KEY ([WarfarinUserId]) REFERENCES [WarfarinUser] ([Id])
 )
 
 CREATE TABLE [Reminder] (
-  [Id] integer PRIMARY KEY IDENTITY, 
+  [Id] integer PRIMARY KEY IDENTITY,
   [DateForNextLevel] datetime NOT NULL,
-  [Completed] integer NOT NULL,  
+  [Completed] integer NOT NULL, 
+  
 )
 
 CREATE TABLE [Level] (
@@ -56,7 +66,7 @@ CREATE TABLE [Level] (
   [ReminderId] integer,
   [DateDrawn] datetime NOT NULL,
   [Comment] NVARCHAR(500),
-  [Result] decimal NOT NULL,
+  [Result] float NOT NULL,
   [InRange] integer NOT NULL,
 
   CONSTRAINT [FK_Level_INRRange] FOREIGN KEY ([INRRangeId]) REFERENCES [INRRange] ([Id]),
