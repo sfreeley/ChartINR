@@ -13,7 +13,7 @@ namespace ChartINR.Repositories
     {
         public LevelRepository(IConfiguration config) : base(config) { }
 
-        //all levels
+        //all levels (id will be based on warfarin user id)
         public List<Level> GetAllLevelsForRangeByUserId(int id)
         {
             using (var conn = Connection)
@@ -24,22 +24,26 @@ namespace ChartINR.Repositories
                     cmd.CommandText = @"
                          SELECT l.Id AS LevelId, l.INRRangeId, l.DoseId AS DoseId, l.ReminderId AS ReminderId, l.DateDrawn, l.Result, l.Comment, l.InRange,
 
-                         up.Username,
+                         up.Id AS UserProfileId, up.Username,
 
-                         ra.UserProfileId, ra.MinLevel, ra.MaxLevel, ra.IsActive AS RangeIsActive,
+                         ra.WarfarinUserId, ra.MinLevel, ra.MaxLevel, ra.IsActive AS RangeIsActive,
 
                          re.DateForNextLevel, re.Completed,
+
+                         wu.DisplayName,
 
                          d.DateInput, d.WeeklyDose, d.IsActive AS DoseIsActive
 
                          FROM Level l
                          LEFT JOIN Reminder re ON l.ReminderId = re.Id
-                         LEFT JOIN INRRange ra ON l.INRRangeId = ra.Id
-                         LEFT JOIN UserProfile up ON ra.UserProfileId = up.Id
-                         LEFT JOIN Dose d ON d.UserProfileId = up.Id
-                         WHERE ra.UserProfileId = @userProfileId AND ra.IsActive = 1 AND d.IsActive = 1 AND re.Id IS NOT NULL
+                         LEFT JOIN INRRange ra ON l.INRRangeId = ra.Id 
+                         LEFT JOIN Dose d ON l.DoseId = d.Id
+                         LEFT JOIN WarfarinUser wu ON d.WarfarinUserId = wu.Id
+                         LEFT JOIN UserProfile up ON wu.UserProfileId = up.Id
+                             
+                         WHERE wu.Id = @warfarinUserId AND ra.IsActive = 1 AND d.IsActive = 1 AND re.Id IS NOT NULL
                         ";
-                    cmd.Parameters.AddWithValue("@userProfileId", id);
+                    cmd.Parameters.AddWithValue("@warfarinUserId", id);
                     var reader = cmd.ExecuteReader();
                     List<Level> levels = new List<Level>();
 
@@ -73,10 +77,15 @@ namespace ChartINR.Repositories
                     Username = DbUtils.GetString(reader, "Username")
 
                 },
+                WarfarinUser = new WarfarinUser
+                { 
+                    Id = DbUtils.GetInt(reader, "WarfarinUserId"),
+                    DisplayName = DbUtils.GetString(reader, "DisplayName")
+                },
                 INRRange = new INRRange
                 {
                     Id = DbUtils.GetInt(reader, "INRRangeId"),
-                    UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                    WarfarinUserId = DbUtils.GetInt(reader, "WarfarinUserId"),
                     MinLevel = reader.GetDouble(reader.GetOrdinal("MinLevel")),
                     MaxLevel = reader.GetDouble(reader.GetOrdinal("MaxLevel")),
                     IsActive = DbUtils.GetInt(reader, "RangeIsActive")

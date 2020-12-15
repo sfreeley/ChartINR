@@ -31,5 +31,7 @@ namespace ChartINR.Models
 
         public Reminder Reminder { get; set; }
 
+        public WarfarinUser WarfarinUser { get; set; }
+
     }
 }

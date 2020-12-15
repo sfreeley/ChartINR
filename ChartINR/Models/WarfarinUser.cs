@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace ChartINR.Models
 {
-    public class Reminder
+    public class WarfarinUser
     {
         public int Id { get; set; }
-        //public int WarfarinUserId { get; set; }
-        public DateTime DateForNextLevel { get; set; }
-        public int Completed { get; set; }
+        public int UserProfileId { get; set; }
+        public string DisplayName { get; set; }
+        
     }
 }

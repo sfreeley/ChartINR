@@ -8,9 +8,9 @@ export function LevelProvider(props) {
     const { getToken } = useContext(UserProfileContext)
     const [levels, setLevels] = useState([])
 
-    const getLevels = (userId) => {
+    const getLevels = (warfarinUserId) => {
 
-        getToken().then((token) => fetch(`${apiUrl}/user/${userId}`, {
+        getToken().then((token) => fetch(`${apiUrl}/user/${warfarinUserId}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,

@@ -10,19 +10,23 @@ const LevelList = () => {
     const { getLevels, levels } = useContext(LevelContext);
     const [hidden, setHidden] = useState(true)
     const toggleLevels = () => setHidden(!hidden)
-    const { activeUser } = useContext(UserProfileContext)
+
 
     useEffect(() => {
-        getLevels(parseInt(activeUser.id))
+        // this will be specific to the warfarin user that the person who is logged in can see
+        getLevels()
     }, []);
 
 
     return (
-        <div className="LevelsList">
-            {/* show most recent INR info */}
-            <Button className="toggleLevels" onClick={toggleLevels}>Show INR History</Button>
-            <Button className="showChart">See INR Trend</Button>
-            <CardDeck className="LevelsList--container">
+        <div className="levelsList">
+            {/* show most recent INR level */}
+            <Button className="toggleLevels" onClick={toggleLevels}>INR History</Button>
+            {/* push user to new view with chart/graph? and stats?*/}
+            <Button className="showChart">See INR Trends</Button>
+            {/* ability to add INR not related to reminder date... how to approach this?  */}
+            <Button className="addLevel">Add INR Level</Button>
+            <CardDeck className="levelsList--container">
 
                 {levels.map((level) => {
                     return <Level key={level.id} level={level} hidden={hidden} />

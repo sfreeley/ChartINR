@@ -9,7 +9,7 @@ namespace ChartINR.Models
     {
         public int Id { get; set; }
 
-        public int UserProfileId { get; set; }
+        public int WarfarinUserId { get; set; }
 
         public double MinLevel { get; set; }
 

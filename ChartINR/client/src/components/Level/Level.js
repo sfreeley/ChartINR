@@ -17,14 +17,16 @@ const Level = ({ level, hidden }) => {
                 <ToastBody>
                     <p>Result: <strong>{level.result.toFixed(1)}</strong></p>
                     <p>In Range: {level.inRange === 0 ? <p>No</p> : <p>Yes</p>}</p>
+                    <hr />
+                    {level.comment !== null ?
+                        <p>Comments: {level.comment}</p> : null}
                 </ToastBody>
 
 
-                {/* 
-                <div className="commentButtonContainer">
-                    <Button className="commentEdit--button" onClick={() => history.push(`/comment/edit/${aComment.id}`)} outline >Edit </Button>
-                    <Button className="commentDelete--button" outline onClick={toggle}>Delete</Button>
-                </div> : null */}
+                <div className="levelsButtonContainer">
+                    {/* need to edit with modal */}
+                    <Button className="levelsEdit--button" outline >Edit </Button>
+                </div>
 
 
             </Toast>

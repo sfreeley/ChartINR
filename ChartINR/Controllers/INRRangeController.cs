@@ -29,7 +29,8 @@ namespace ChartINR.Controllers
         {
             
             UserProfile userProfile = GetCurrentUserProfile();
-            inrRange.UserProfileId = userProfile.Id;
+            //need to add warfarin user, not the range... need to change this
+            //inrRange.WarfarinUserId = userProfile.Id;
             inrRange.IsActive = 1;
             _rangeRepository.Add(inrRange);
             return Ok();
