@@ -14,7 +14,7 @@ const LevelList = () => {
 
     useEffect(() => {
         // this will be specific to the warfarin user that the person who is logged in can see
-        getLevels()
+        getLevels(1)
     }, []);
 
 

@@ -41,7 +41,7 @@ namespace ChartINR.Repositories
                          LEFT JOIN WarfarinUser wu ON d.WarfarinUserId = wu.Id
                          LEFT JOIN UserProfile up ON wu.UserProfileId = up.Id
                              
-                         WHERE wu.Id = @warfarinUserId AND ra.IsActive = 1 AND d.IsActive = 1 AND re.Id IS NOT NULL
+                         WHERE wu.Id = @warfarinUserId AND ra.IsActive = 1 AND re.Id IS NOT NULL
                         ";
                     cmd.Parameters.AddWithValue("@warfarinUserId", id);
                     var reader = cmd.ExecuteReader();
