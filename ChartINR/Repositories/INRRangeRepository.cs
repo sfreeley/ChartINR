@@ -20,9 +20,9 @@ namespace ChartINR.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO INRRange ( UserProfileId, MinLevel, MaxLevel, IsActive )
+                        INSERT INTO INRRange ( WarfarinUserId, MinLevel, MaxLevel, IsActive )
                         OUTPUT INSERTED.ID
-                        VALUES ( @UserProfileId, @MinLevel, @MaxLevel, @IsActive )";
+                        VALUES ( @WarfarinUserId, @MinLevel, @MaxLevel, @IsActive )";
                     DbUtils.AddParameter(cmd, "@UserProfileId", inrRange.WarfarinUserId);
                     DbUtils.AddParameter(cmd, "@MinLevel", inrRange.MinLevel);
                     DbUtils.AddParameter(cmd, "@MaxLevel", inrRange.MaxLevel);

@@ -9,10 +9,10 @@ set identity_insert [UserProfile] off
 
 --WarfarinUser
 set identity_insert [WarfarinUser] on
-insert into WarfarinUser (Id, UserProfileId, DisplayName) values (1, 1, 'test1');
-insert into WarfarinUser (Id, UserProfileId, DisplayName) values (2, 1, 'test2');
-insert into WarfarinUser (Id, UserProfileId, DisplayName) values (3, 2, 'test3');
-insert into WarfarinUser (Id, UserProfileId, DisplayName) values (4, 2, 'test4');
+insert into WarfarinUser (Id, UserProfileId, FirstName, LastName) values (1, 1, 'Test1', 'Test1');
+insert into WarfarinUser (Id, UserProfileId, FirstName, LastName) values (2, 1, 'Test2', 'Test2');
+insert into WarfarinUser (Id, UserProfileId, FirstName, LastName) values (3, 2, 'Test3', 'Test3');
+insert into WarfarinUser (Id, UserProfileId, FirstName, LastName) values (4, 2, 'Test4', 'Test4');
 set identity_insert [WarfarinUser] off
 
 --Range

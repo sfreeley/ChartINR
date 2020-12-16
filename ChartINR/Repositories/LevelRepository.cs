@@ -30,7 +30,7 @@ namespace ChartINR.Repositories
 
                          re.DateForNextLevel, re.Completed,
 
-                         wu.DisplayName,
+                         wu.FirstName, wu.LastName,
 
                          d.DateInput, d.WeeklyDose, d.IsActive AS DoseIsActive
 
@@ -75,7 +75,7 @@ namespace ChartINR.Repositories
 
                          re.DateForNextLevel, re.Completed,
 
-                         wu.DisplayName,
+                         wu.FirstName, wu.LastName,
 
                          d.DateInput, d.WeeklyDose, d.IsActive AS DoseIsActive
 
@@ -128,7 +128,8 @@ namespace ChartINR.Repositories
                 WarfarinUser = new WarfarinUser
                 { 
                     Id = DbUtils.GetInt(reader, "WarfarinUserId"),
-                    DisplayName = DbUtils.GetString(reader, "DisplayName")
+                    FirstName = DbUtils.GetString(reader, "FirstName"),
+                    LastName = DbUtils.GetString(reader, "LastName"),
                 },
                 INRRange = new INRRange
                 {

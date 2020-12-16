@@ -20,7 +20,7 @@ namespace ChartINR.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT wu.Id, wu.UserProfileId, wu.DisplayName,
+                        SELECT wu.Id, wu.UserProfileId, wu.FirstName, wu.LastName,
                         
                         up.Username
                         
@@ -38,7 +38,8 @@ namespace ChartINR.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
                             UserProfile = new UserProfile
                             {
                                 Id = DbUtils.GetInt(reader, "UserProfileId"),
@@ -48,6 +49,26 @@ namespace ChartINR.Repositories
                     }
                     reader.Close();
                     return warfarinUsers;
+                }
+            }
+        }
+
+        public void Add(WarfarinUser warfarinUser)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO WarfarinUser ( UserProfileId, FirstName, LastName )
+                        OUTPUT INSERTED.ID
+                        VALUES ( @UserProfileId, @FirstName, @LastName )";
+                    DbUtils.AddParameter(cmd, "@UserProfileId", warfarinUser.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@FirstName", warfarinUser.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", warfarinUser.LastName);
+                    
+                    warfarinUser.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }

@@ -1,26 +1,33 @@
 import React, { useState, useContext } from "react";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-import { useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { RangeContext } from "../../providers/RangeProvider";
 
-const Home = () => {
+const AddRangeForm = () => {
     const { addRange } = useContext(RangeContext);
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
+    const { id } = useParams();
     const [minLevel, setMinLevel] = useState(null);
     const [maxLevel, setMaxLevel] = useState(null);
 
     const submitRange = (e) => {
         e.preventDefault();
         setIsLoading(true);
+
         const range = {
             minLevel,
             maxLevel
         };
 
-        addRange(range)
-        // .then(() => history.push("/results"))
+        if (minLevel === null || maxLevel === null) {
+            alert("Please fill out all fields before submitting")
+        }
+        else {
+            addRange(range).then(() => history.goBack())
+        }
         setIsLoading(false);
+
     }
 
     return (
@@ -63,4 +70,4 @@ const Home = () => {
 
 }
 
-export default Home;
+export default AddRangeForm;

@@ -7,7 +7,7 @@ import Level from "../../components/Level/Level";
 
 const WarfarinUserProfile = () => {
     const { levels, getMostRecentLevel, getLevels } = useContext(LevelContext);
-    const [mostRecentLevel, setMostRecentLevel] = useState({ warfarinUser: {}, dose: {}, result: 0 });
+    const [mostRecentLevel, setMostRecentLevel] = useState({ warfarinUser: { firstName: "", lastName: "" }, dose: {}, result: 0, inrRange: { minLevel: 0, maxLevel: 0 } });
     const { id } = useParams();
     const history = useHistory();
 
@@ -23,7 +23,17 @@ const WarfarinUserProfile = () => {
 
     return (
         <>
-            <h4>{mostRecentLevel.warfarinUser.displayName}'s Profile</h4>
+            <h4>{mostRecentLevel.warfarinUser.lastName}, {mostRecentLevel.warfarinUser.firstName} Profile</h4>
+            <Toast>
+                <ToastHeader>
+
+                    {!mostRecentLevel.inrRange.id ? <Link to={"/range"}>Add INR Target Range</Link> : <Button>Deactivate Current INR Range</Button>}
+
+                </ToastHeader>
+                <ToastBody>
+                    Current Range: <strong>{mostRecentLevel.inrRange.minLevel.toFixed(1)} to {mostRecentLevel.inrRange.maxLevel.toFixed(1)}</strong>
+                </ToastBody>
+            </Toast>
             <Toast className="levelToast" >
                 <ToastHeader>
                     Date Drawn: <strong>{currentDate(mostRecentLevel.dateDrawn)}</strong>

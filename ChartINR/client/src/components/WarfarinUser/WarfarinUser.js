@@ -9,7 +9,7 @@ const WarfarinUser = ({ warfarinUser }) => {
         <>
             <Toast className="warfarinUserToast">
                 <ToastHeader>
-                    User: <strong>{warfarinUser.displayName}</strong>
+                    User: <strong>{warfarinUser.lastName}, {warfarinUser.firstName}</strong>
                 </ToastHeader>
 
                 <div className="warfarinUsersButtonContainer">
