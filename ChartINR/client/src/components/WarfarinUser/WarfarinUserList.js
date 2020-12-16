@@ -19,12 +19,6 @@ const WarfarinUserList = () => {
 
     return (
         <div className="warfarinUserList">
-            {/* show most recent INR level */}
-            <Button className="">INR History</Button>
-            {/* push user to new view with chart/graph? and stats?*/}
-            <Button className="">See INR Trends</Button>
-            {/* ability to add INR not related to reminder date... how to approach this?  */}
-            <Button className="">Add INR Level</Button>
             <CardDeck className="warfarinUserList--container">
 
                 {warfarinUsers.map((warfarinUser) => {

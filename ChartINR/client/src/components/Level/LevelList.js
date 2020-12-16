@@ -24,8 +24,6 @@ const LevelList = () => {
             <Button className="toggleLevels" onClick={toggleLevels}>INR History</Button>
             {/* push user to new view with chart/graph? and stats?*/}
             <Button className="showChart">See INR Trends</Button>
-            {/* ability to add INR not related to reminder date... how to approach this?  */}
-            <Button className="addLevel">Add INR Level</Button>
             <CardDeck className="levelsList--container">
 
                 {levels.map((level) => {
