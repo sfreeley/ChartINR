@@ -53,6 +53,47 @@ namespace ChartINR.Repositories
             }
         }
 
+        public WarfarinUser GetWarfarinUserById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT wu.Id, wu.UserProfileId, wu.FirstName, wu.LastName,
+                        
+                        up.Username
+                        
+                        FROM WarfarinUser wu
+                        JOIN UserProfile up ON wu.UserProfileId = up.Id
+                        WHERE wu.Id = @id
+                    ";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    var reader = cmd.ExecuteReader();
+                    WarfarinUser warfarinUser = null;
+
+                    if (reader.Read())
+                    {
+                        warfarinUser = new WarfarinUser()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            UserProfile = new UserProfile
+                            {
+                                Id = DbUtils.GetInt(reader, "UserProfileId"),
+                                Username = DbUtils.GetString(reader, "Username")
+                            }
+                        };
+                    }
+                    reader.Close();
+                    return warfarinUser;
+                }
+            }
+        }
+
         public void Add(WarfarinUser warfarinUser)
         {
             using (var conn = Connection)

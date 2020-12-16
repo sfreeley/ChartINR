@@ -31,6 +31,13 @@ namespace ChartINR.Controllers
             return Ok(_warfarinUserRepository.GetAllWarfarinUsersForUserProfile(id));
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+
+            return Ok(_warfarinUserRepository.GetWarfarinUserById(id));
+        }
+
         [HttpPost]
         public IActionResult PostWarfarinUser(WarfarinUser warfarinUser)
         {

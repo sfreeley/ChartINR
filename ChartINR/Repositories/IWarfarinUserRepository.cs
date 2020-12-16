@@ -7,5 +7,6 @@ namespace ChartINR.Repositories
     {
         List<WarfarinUser> GetAllWarfarinUsersForUserProfile(int id);
         void Add(WarfarinUser warfarinUser);
+        WarfarinUser GetWarfarinUserById(int id);
     }
 }

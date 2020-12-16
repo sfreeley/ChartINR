@@ -21,6 +21,17 @@ export function WarfarinUserProvider(props) {
         )
     };
 
+    const getWarfarinUserById = (warfarinUserId) => {
+        return getToken().then((token) => fetch(`${apiUrl}/${warfarinUserId}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+
+            },
+
+        }).then(resp => resp.json()));
+    };
+
     const addWarfarinUser = (warfarinUser) => {
         return getToken().then((token) => fetch(apiUrl, {
             method: "POST",
@@ -36,7 +47,7 @@ export function WarfarinUserProvider(props) {
 
     return (
 
-        <WarfarinUserContext.Provider value={{ warfarinUsers, getWarfarinUsers, addWarfarinUser }}>
+        <WarfarinUserContext.Provider value={{ warfarinUsers, getWarfarinUsers, getWarfarinUserById, addWarfarinUser }}>
             {props.children}
         </WarfarinUserContext.Provider>
     );
