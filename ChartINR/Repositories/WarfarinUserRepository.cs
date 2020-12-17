@@ -62,10 +62,13 @@ namespace ChartINR.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT wu.Id, wu.UserProfileId, wu.FirstName, wu.LastName,
+
+                        ra.Id AS RangeId, ra.MinLevel, ra.MaxLevel,
                         
                         up.Username
                         
                         FROM WarfarinUser wu
+                        JOIN INRRange ra ON ra.WarfarinUserId = wu.Id
                         JOIN UserProfile up ON wu.UserProfileId = up.Id
                         WHERE wu.Id = @id
                     ";
@@ -85,10 +88,22 @@ namespace ChartINR.Repositories
                             {
                                 Id = DbUtils.GetInt(reader, "UserProfileId"),
                                 Username = DbUtils.GetString(reader, "Username")
+                            },
+                            INRRange = new INRRange
+                            { 
+                                Id = DbUtils.GetInt(reader, "RangeId"),
+                                MinLevel = reader.GetDouble(reader.GetOrdinal("MinLevel")),
+                                MaxLevel = reader.GetDouble(reader.GetOrdinal("MaxLevel"))
                             }
                         };
                     }
-                    reader.Close();
+                    else
+                    {
+                        reader.Close();
+                        return null;
+                        
+                    }
+                    
                     return warfarinUser;
                 }
             }
@@ -104,12 +119,14 @@ namespace ChartINR.Repositories
                     cmd.CommandText = @"
                         INSERT INTO WarfarinUser ( UserProfileId, FirstName, LastName )
                         OUTPUT INSERTED.ID
-                        VALUES ( @UserProfileId, @FirstName, @LastName )";
+                        VALUES ( @UserProfileId, @FirstName, @LastName )
+                        ";
                     DbUtils.AddParameter(cmd, "@UserProfileId", warfarinUser.UserProfileId);
                     DbUtils.AddParameter(cmd, "@FirstName", warfarinUser.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", warfarinUser.LastName);
                     
                     warfarinUser.Id = (int)cmd.ExecuteScalar();
+                   
                 }
             }
         }

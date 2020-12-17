@@ -3,24 +3,30 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import { currentDate } from "../../components/Helper/HelperFunctions";
 import { LevelContext } from "../../providers/LevelProvider";
 import { Toast, Button, CardDeck, ToastHeader, ToastBody } from "reactstrap";
-import Level from "../../components/Level/Level";
 import { WarfarinUserContext } from "../../providers/WarfarinUserProvider";
+import { RangeContext } from "../../providers/RangeProvider";
 
 const WarfarinUserProfile = () => {
-    const { levels, getMostRecentLevel, getLevels } = useContext(LevelContext);
+    const { getMostRecentLevel } = useContext(LevelContext);
     const { getWarfarinUserById } = useContext(WarfarinUserContext);
-
+    const { getRangeByUserId } = useContext(RangeContext);
 
     const [mostRecentLevel, setMostRecentLevel] = useState({ warfarinUser: {}, dose: {}, result: 0, inrRange: { minLevel: 0, maxLevel: 0 } });
     console.log(mostRecentLevel)
     const [warfarinUser, setWarfarinUser] = useState({});
+    const [range, setRange] = useState({ minLevel: 0, maxLevel: 0 });
+    console.log(range)
     //id is warfarin user's id
     const { id } = useParams();
     const history = useHistory();
 
+    async function getRange() {
+
+        await getRangeByUserId(parseInt(id)).then(setRange)
+    }
+
     async function getMostRecent() {
         await getMostRecentLevel(parseInt(id)).then(setMostRecentLevel)
-
     }
 
     async function getUser() {
@@ -28,24 +34,26 @@ const WarfarinUserProfile = () => {
     }
 
     useEffect(() => {
-        getMostRecent();
         getUser();
+        getRange();
+        getMostRecent();
     }, [id])
 
     if (!mostRecentLevel) return null;
+    if (!range) return null;
 
     return (
         <>
             <h4>{warfarinUser.lastName}, {warfarinUser.firstName} Profile</h4>
             <Toast>
                 <ToastHeader>
-
-                    {!mostRecentLevel.inrRange ? <Link to={"/range"}>Add INR Target Range</Link> : <Button>Deactivate Current INR Range</Button>}
-
+                    {/* need to write function for deactivation */}
+                    {range.minLevel === 0 ? <Link to={`/range/${range.id}`}>Add INR Target Range</Link> : <Button>Deactivate Current INR Range</Button>}
 
                 </ToastHeader>
                 <ToastBody>
-                    Current Range: {!mostRecentLevel.inrRange ? <strong>---</strong> : <strong>mostRecentLevel.inrRange.minLevel.toFixed(1) to {mostRecentLevel.inrRange.maxLevel.toFixed(1)}</strong>}
+                    Current Range: {range.minLevel === 0 ? <strong>---</strong> : <strong>{range.minLevel.toFixed(1)} to {range.maxLevel.toFixed(1)}</strong>}
+                    {/* {!mostRecentLevel.inrRange ? <strong>---</strong> : <strong>{mostRecentLevel.inrRange.minLevel.toFixed(1)} to {mostRecentLevel.inrRange.maxLevel.toFixed(1)}</strong>} */}
                     <p>Weekly Dose: {!mostRecentLevel.dose ? <strong>---</strong> : <p>{mostRecentLevel.dose.weeklyDose}</p>}</p>
                 </ToastBody>
             </Toast>
@@ -66,7 +74,8 @@ const WarfarinUserProfile = () => {
 
                 <div className="levelsButtonContainer">
                     {/* need to edit with modal */}
-                    <Button className="levelsEdit--button" outline >Edit </Button>
+                    {!mostRecentLevel.result ? null :
+                        <Button className="levelsEdit--button" outline >Edit </Button>}
                 </div>
             </Toast>
 

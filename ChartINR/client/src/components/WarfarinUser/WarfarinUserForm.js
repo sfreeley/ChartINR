@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { WarfarinUserContext } from "../../providers/WarfarinUserProvider";
+
 
 const WarfarinUserForm = () => {
     const { addWarfarinUser } = useContext(WarfarinUserContext);
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
-    const { id } = useParams();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
 
@@ -17,14 +17,15 @@ const WarfarinUserForm = () => {
 
         const warfarinUser = {
             firstName,
-            lastName
+            lastName,
         };
 
         if (firstName === "" || lastName === "") {
             alert("Please fill out all fields before submitting")
         }
         else {
-            addWarfarinUser(warfarinUser).then(() => history.push("/users"))
+            addWarfarinUser(warfarinUser)
+                .then(() => history.push("/users"))
         }
         setIsLoading(false);
 

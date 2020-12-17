@@ -17,11 +17,13 @@ namespace ChartINR.Controllers
 
         private readonly IWarfarinUserRepository _warfarinUserRepository;
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IINRRangeRepository _inrRangeRepository;
 
-        public WarfarinUserController(IWarfarinUserRepository warfarinUserRepository, IUserProfileRepository userProfileRepository)
+        public WarfarinUserController(IWarfarinUserRepository warfarinUserRepository, IUserProfileRepository userProfileRepository, IINRRangeRepository inrRangeRepository)
         {
             _warfarinUserRepository = warfarinUserRepository;
             _userProfileRepository = userProfileRepository;
+            _inrRangeRepository = inrRangeRepository; 
         }
 
         [HttpGet("userprofile/{id}")]
@@ -41,9 +43,16 @@ namespace ChartINR.Controllers
         [HttpPost]
         public IActionResult PostWarfarinUser(WarfarinUser warfarinUser)
         {
+
             UserProfile userProfile = GetCurrentUserProfile();
             warfarinUser.UserProfileId = userProfile.Id;
             _warfarinUserRepository.Add(warfarinUser);
+            INRRange inrRange = new INRRange();
+            inrRange.WarfarinUserId = warfarinUser.Id;
+            inrRange.MinLevel = 0;
+            inrRange.MaxLevel = 0;
+            inrRange.IsActive = 1;
+            _inrRangeRepository.Add(inrRange);
           
             return CreatedAtAction("Get", new { id = warfarinUser.Id }, warfarinUser);
 

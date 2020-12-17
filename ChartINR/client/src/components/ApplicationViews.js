@@ -27,7 +27,7 @@ export default function ApplicationViews() {
                 <Route path="/levels/:id">
                     {isLoggedIn ? <LevelList /> : <Redirect to="/login" />}
                 </Route>
-                <Route path="/range">
+                <Route path="/range/:id">
                     {isLoggedIn ? <AddRangeForm /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/login">

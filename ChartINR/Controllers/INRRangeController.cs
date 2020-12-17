@@ -24,16 +24,20 @@ namespace ChartINR.Controllers
            
         }
 
-        [HttpPost]
-        public IActionResult Add(INRRange inrRange)
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
         {
-            
-            UserProfile userProfile = GetCurrentUserProfile();
-            //need to add warfarin user, not the range... need to change this
-            //inrRange.WarfarinUserId = userProfile.Id;
+
+            return Ok(_rangeRepository.GetRangeByUserId(id));
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, INRRange inrRange)
+        {
+
             inrRange.IsActive = 1;
-            _rangeRepository.Add(inrRange);
-            return Ok();
+            _rangeRepository.Put(inrRange);
+            return NoContent();
 
         }
 
