@@ -8,7 +8,7 @@ namespace ChartINR.Models
     public class Reminder
     {
         public int Id { get; set; }
-        //public int WarfarinUserId { get; set; }
+        public int WarfarinUserId { get; set; }
         public DateTime DateForNextLevel { get; set; }
         public int Completed { get; set; }
     }

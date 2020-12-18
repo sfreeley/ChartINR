@@ -5,6 +5,7 @@ import ApplicationViews from "./components/ApplicationViews";
 import { UserProfileProvider } from "./providers/UserProfileProvider";
 import { RangeProvider } from "./providers/RangeProvider";
 import { LevelProvider } from "./providers/LevelProvider";
+import { ReminderProvider } from "./providers/ReminderProvider";
 import { WarfarinUserProvider } from "./providers/WarfarinUserProvider";
 
 function App() {
@@ -13,10 +14,12 @@ function App() {
       <UserProfileProvider>
         <WarfarinUserProvider>
           <RangeProvider>
-            <LevelProvider>
-              {/* <Header /> */}
-              <ApplicationViews />
-            </LevelProvider>
+            <ReminderProvider>
+              <LevelProvider>
+                {/* <Header /> */}
+                <ApplicationViews />
+              </LevelProvider>
+            </ReminderProvider>
           </RangeProvider>
         </WarfarinUserProvider>
       </UserProfileProvider>

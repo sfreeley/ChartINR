@@ -11,12 +11,6 @@ const AddRangeForm = () => {
     const [minLevel, setMinLevel] = useState();
     const [maxLevel, setMaxLevel] = useState();
 
-    // async function updateRangeForUser() {
-    //     await getRangeByUserId(parseInt(id)).then((range) => {
-    //         setMinLevel(range.minLevel);
-    //         setMaxLevel(range.maxLevel);
-    //     })
-    // }
     useEffect(() => {
         getRangeByUserId(parseInt(id)).then((range) => {
             setMinLevel(range.minLevel);
@@ -59,7 +53,6 @@ const AddRangeForm = () => {
                                 onChange={(e) => setMinLevel(parseFloat(e.target.value))}
                                 type="text"
                                 id="minLevel"
-                                // defaultValue={minLevel}
                                 placeholder="Enter Minimum INR Value"
                             />
                         </FormGroup>
@@ -70,7 +63,6 @@ const AddRangeForm = () => {
                                 onChange={(e) => setMaxLevel(parseFloat(e.target.value))}
                                 type="text"
                                 id="maxLevel"
-                                // defaultValue={maxLevel}
                                 placeholder="Enter Maximum INR Value"
                             />
                         </FormGroup>

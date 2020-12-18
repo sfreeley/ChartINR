@@ -2,17 +2,20 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { currentDate } from "../../components/Helper/HelperFunctions";
 import { LevelContext } from "../../providers/LevelProvider";
+import { ReminderContext } from "../../providers/ReminderProvider";
 import { Toast, Button, CardDeck, ToastHeader, ToastBody } from "reactstrap";
 import { WarfarinUserContext } from "../../providers/WarfarinUserProvider";
 import { RangeContext } from "../../providers/RangeProvider";
 
 const WarfarinUserProfile = () => {
+    const { getMostRecentReminder } = useContext(ReminderContext);
     const { getMostRecentLevel } = useContext(LevelContext);
     const { getWarfarinUserById } = useContext(WarfarinUserContext);
     const { getRangeByUserId } = useContext(RangeContext);
 
     const [mostRecentLevel, setMostRecentLevel] = useState({ warfarinUser: {}, dose: {}, result: 0, inrRange: { minLevel: 0, maxLevel: 0 } });
-    console.log(mostRecentLevel)
+    const [mostRecentReminder, setMostRecentReminder] = useState({});
+    console.log(mostRecentReminder);
     const [warfarinUser, setWarfarinUser] = useState({});
     const [range, setRange] = useState({ minLevel: 0, maxLevel: 0 });
     console.log(range)
@@ -25,8 +28,12 @@ const WarfarinUserProfile = () => {
         await getRangeByUserId(parseInt(id)).then(setRange)
     }
 
-    async function getMostRecent() {
+    async function getRecentLevel() {
         await getMostRecentLevel(parseInt(id)).then(setMostRecentLevel)
+    }
+
+    async function getRecentReminder() {
+        await getMostRecentReminder(parseInt(id)).then(setMostRecentReminder)
     }
 
     async function getUser() {
@@ -36,15 +43,25 @@ const WarfarinUserProfile = () => {
     useEffect(() => {
         getUser();
         getRange();
-        getMostRecent();
+        getRecentLevel();
+        getRecentReminder();
     }, [id])
 
     if (!mostRecentLevel) return null;
     if (!range) return null;
 
+
     return (
         <>
             <h4>{warfarinUser.lastName}, {warfarinUser.firstName} Profile</h4>
+            <Toast>
+                <ToastHeader>
+                    {mostRecentReminder === undefined ? <Link to="/reminder/add">Add Reminder</Link> : null}
+                </ToastHeader>
+                <ToastBody>
+                    Next INR Draw: {mostRecentReminder === undefined ? <p>---</p> : currentDate(mostRecentReminder.dateOfNextLevel)}
+                </ToastBody>
+            </Toast>
             <Toast>
                 <ToastHeader>
                     {/* need to write function for deactivation */}

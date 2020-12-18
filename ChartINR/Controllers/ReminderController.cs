@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ChartINR.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,18 @@ namespace ChartINR.Controllers
     [ApiController]
     public class ReminderController : ControllerBase
     {
+        private readonly IReminderRepository _reminderRepository;
+
+        public ReminderController(IReminderRepository reminderRepository)
+        {
+            _reminderRepository = reminderRepository;
+        }
+
+        [HttpGet("mostrecent/{id}")]
+        public IActionResult GetMostRecentLevel(int id)
+        {
+
+            return Ok(_reminderRepository.GetMostRecentReminder(id));
+        }
     }
 }
