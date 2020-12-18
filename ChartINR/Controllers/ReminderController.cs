@@ -1,4 +1,5 @@
-﻿using ChartINR.Repositories;
+﻿using ChartINR.Models;
+using ChartINR.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,6 +25,15 @@ namespace ChartINR.Controllers
         {
 
             return Ok(_reminderRepository.GetMostRecentReminder(id));
+        }
+
+        [HttpPost]
+        public IActionResult PostDate(Reminder reminder)
+        {
+            reminder.Completed = 0;
+            _reminderRepository.PostDate(reminder);
+            return CreatedAtAction("Get", new { id = reminder.Id }, reminder);
+
         }
     }
 }

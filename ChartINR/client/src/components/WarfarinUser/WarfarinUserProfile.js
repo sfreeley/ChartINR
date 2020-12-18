@@ -58,7 +58,7 @@ const WarfarinUserProfile = () => {
             <h4>{warfarinUser.lastName}, {warfarinUser.firstName} Profile</h4>
             <Toast>
                 <ToastHeader>
-                    {mostRecentReminder.dateForNextLevel === undefined ? <Link to="/reminder/add">Add Reminder</Link> : null}
+                    {mostRecentReminder.dateForNextLevel === undefined ? <Link to={`/reminder/add/${id}`}>Add Reminder</Link> : null}
                 </ToastHeader>
                 <ToastBody>
 

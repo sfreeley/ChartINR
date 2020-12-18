@@ -4,7 +4,7 @@ namespace ChartINR.Repositories
 {
     public interface IReminderRepository
     {
-        void Add(Reminder reminder);
+        void PostDate(Reminder reminder);
         Reminder GetMostRecentReminder(int id);
     }
 }

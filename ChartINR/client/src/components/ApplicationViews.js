@@ -8,6 +8,7 @@ import AddRangeForm from "./Range/AddRangeForm";
 import WarfarinUserList from "./WarfarinUser/WarfarinUserList";
 import WarfarinUserProfile from "./WarfarinUser/WarfarinUserProfile";
 import WarfarinUserForm from "./WarfarinUser/WarfarinUserForm";
+import ReminderForm from "./Reminder/ReminderForm";
 
 export default function ApplicationViews() {
     const { isLoggedIn } = useContext(UserProfileContext);
@@ -15,6 +16,9 @@ export default function ApplicationViews() {
     return (
         <main>
             <Switch>
+                <Route path="/reminder/add/:id">
+                    {isLoggedIn ? <ReminderForm /> : <Redirect to="/login" />}
+                </Route>
                 <Route path="/user/profile/:id">
                     {isLoggedIn ? <WarfarinUserProfile /> : <Redirect to="/login" />}
                 </Route>

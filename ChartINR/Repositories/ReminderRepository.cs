@@ -57,7 +57,7 @@ namespace ChartINR.Repositories
 
         }
 
-        public void Add(Reminder reminder)
+        public void PostDate(Reminder reminder)
         {
             using (var conn = Connection)
             {
