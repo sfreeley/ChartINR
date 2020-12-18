@@ -21,9 +21,33 @@ export function WarfarinUserProvider(props) {
         )
     };
 
+    const getWarfarinUserById = (warfarinUserId) => {
+        return getToken().then((token) => fetch(`${apiUrl}/${warfarinUserId}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+
+            },
+
+        }).then(resp => resp.json()));
+    };
+
+    const addWarfarinUser = (warfarinUser) => {
+        return getToken().then((token) => fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(warfarinUser)
+        })
+
+        )
+    };
+
     return (
 
-        <WarfarinUserContext.Provider value={{ warfarinUsers, getWarfarinUsers }}>
+        <WarfarinUserContext.Provider value={{ warfarinUsers, getWarfarinUsers, getWarfarinUserById, addWarfarinUser }}>
             {props.children}
         </WarfarinUserContext.Provider>
     );

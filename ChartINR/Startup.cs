@@ -33,6 +33,7 @@ namespace ChartINR
             services.AddTransient<IINRRangeRepository, INRRangeRepository>();
             services.AddTransient<ILevelRepository, LevelRepository>();
             services.AddTransient<IWarfarinUserRepository, WarfarinUserRepository>();
+            services.AddTransient<IReminderRepository, ReminderRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

@@ -1,26 +1,44 @@
-import React, { useState, useContext } from "react";
-import { Form, FormGroup, Label, Input } from "reactstrap";
-import { useHistory } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { useParams, useHistory } from "react-router-dom";
 import { RangeContext } from "../../providers/RangeProvider";
 
-const Home = () => {
-    const { addRange } = useContext(RangeContext);
+const AddRangeForm = () => {
+    const { updateRange, getRangeByUserId } = useContext(RangeContext);
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
-    const [minLevel, setMinLevel] = useState(null);
-    const [maxLevel, setMaxLevel] = useState(null);
+    const { id } = useParams();
+    const [minLevel, setMinLevel] = useState();
+    const [maxLevel, setMaxLevel] = useState();
+
+    useEffect(() => {
+        getRangeByUserId(parseInt(id)).then((range) => {
+            setMinLevel(range.minLevel);
+            setMaxLevel(range.maxLevel);
+        })
+    }, [])
 
     const submitRange = (e) => {
+
         e.preventDefault();
         setIsLoading(true);
-        const range = {
+
+        const updatedRange = {
+            id: parseInt(id),
             minLevel,
             maxLevel
         };
 
-        addRange(range)
-        // .then(() => history.push("/results"))
+        if (minLevel === 0 || maxLevel === 0) {
+            alert("Please fill out all fields before submitting")
+        }
+        else {
+
+            updateRange(updatedRange)
+                .then(history.goBack())
+        }
         setIsLoading(false);
+
     }
 
     return (
@@ -31,28 +49,25 @@ const Home = () => {
                         <FormGroup>
                             <Label className="INRRange"><strong>Set INR Range</strong></Label>
                             <Input
-                                className="newPuzzle"
+                                className=""
                                 onChange={(e) => setMinLevel(parseFloat(e.target.value))}
                                 type="text"
                                 id="minLevel"
-                                defaultValue={minLevel}
                                 placeholder="Enter Minimum INR Value"
                             />
                         </FormGroup>
                         to
                         <FormGroup>
-                            {/* <Label className="ManufacturerLabel"><strong>Manufacturer</strong></Label> */}
                             <Input
                                 className="INRRange"
                                 onChange={(e) => setMaxLevel(parseFloat(e.target.value))}
                                 type="text"
                                 id="maxLevel"
-                                defaultValue={maxLevel}
                                 placeholder="Enter Maximum INR Value"
                             />
                         </FormGroup>
                     </fieldset>
-                    <button onClick={submitRange}>Record</button>
+                    <Button onClick={submitRange}>Record</Button>
                 </Form>
             </div>
         </div>
@@ -63,4 +78,4 @@ const Home = () => {
 
 }
 
-export default Home;
+export default AddRangeForm;

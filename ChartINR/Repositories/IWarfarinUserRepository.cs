@@ -6,5 +6,7 @@ namespace ChartINR.Repositories
     public interface IWarfarinUserRepository
     {
         List<WarfarinUser> GetAllWarfarinUsersForUserProfile(int id);
+        void Add(WarfarinUser warfarinUser);
+        WarfarinUser GetWarfarinUserById(int id);
     }
 }
