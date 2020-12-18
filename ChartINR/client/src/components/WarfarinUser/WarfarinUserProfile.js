@@ -42,9 +42,11 @@ const WarfarinUserProfile = () => {
 
     useEffect(() => {
         getUser();
-        getRange();
-        getRecentLevel();
         getRecentReminder();
+        getRange();
+        getRecentReminder();
+        getRecentLevel();
+
     }, [id])
 
     if (!mostRecentLevel) return null;
@@ -56,10 +58,19 @@ const WarfarinUserProfile = () => {
             <h4>{warfarinUser.lastName}, {warfarinUser.firstName} Profile</h4>
             <Toast>
                 <ToastHeader>
-                    {mostRecentReminder === undefined ? <Link to="/reminder/add">Add Reminder</Link> : null}
+                    {mostRecentReminder.dateForNextLevel === undefined ? <Link to="/reminder/add">Add Reminder</Link> : null}
                 </ToastHeader>
                 <ToastBody>
-                    Next INR Draw: {mostRecentReminder === undefined ? <p>---</p> : currentDate(mostRecentReminder.dateOfNextLevel)}
+
+                    {mostRecentReminder.dateForNextLevel === undefined ? null : <p>Next INR Draw: {currentDate(mostRecentReminder.dateForNextLevel)}</p>}
+                </ToastBody>
+            </Toast>
+            <Toast>
+                <ToastHeader>
+                    {<Link to="/dose/add">Add Dose</Link>}
+                </ToastHeader>
+                <ToastBody>
+                    Weekly Dose:
                 </ToastBody>
             </Toast>
             <Toast>
@@ -70,12 +81,12 @@ const WarfarinUserProfile = () => {
                 </ToastHeader>
                 <ToastBody>
                     Current Range: {range.minLevel === 0 ? <strong>---</strong> : <strong>{range.minLevel.toFixed(1)} to {range.maxLevel.toFixed(1)}</strong>}
-                    {/* {!mostRecentLevel.inrRange ? <strong>---</strong> : <strong>{mostRecentLevel.inrRange.minLevel.toFixed(1)} to {mostRecentLevel.inrRange.maxLevel.toFixed(1)}</strong>} */}
                     <p>Weekly Dose: {!mostRecentLevel.dose ? <strong>---</strong> : <p>{mostRecentLevel.dose.weeklyDose}</p>}</p>
                 </ToastBody>
             </Toast>
             <Toast className="levelToast" >
                 <ToastHeader>
+
                     Date Drawn: {mostRecentLevel.dateDrawn === "0001-01-01T00:00:00" ? <strong>---</strong> : <strong>{currentDate(mostRecentLevel.dateDrawn)}</strong>}
 
                 </ToastHeader>

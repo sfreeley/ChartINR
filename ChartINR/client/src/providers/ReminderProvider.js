@@ -22,17 +22,14 @@ export function ReminderProvider(props) {
     // };
 
     const getMostRecentReminder = (warfarinUserId) => {
-        return getToken().then((token) => fetch(`${apiUrl}/${warfarinUserId}`, {
+        return getToken().then((token) => fetch(`${apiUrl}/mostrecent/${warfarinUserId}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
             },
 
-        }).then(resp => {
-            resp.text()
-                .then((text) => {
-                    text ? JSON.parse(text) : null
-                })
+        }).then((resp) => {
+            return resp.status === 200 && resp.json()
         }));
     };
 

@@ -24,26 +24,27 @@ set identity_insert [INRRange] off
 
 --Reminder
 set identity_insert [Reminder] on
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (1, '2019-12-16', 0);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (2, '2019-12-17', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (3, '2019-12-30', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (4, '2020-01-13', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (5, '2020-01-31', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (6, '2020-02-12', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (7, '2020-02-25', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (8, '2020-03-17', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (9, '2020-04-06', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (10,'2020-04-30', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (11, '2020-05-26', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (12, '2020-06-24', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (13, '2020-07-08', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (14, '2020-07-15', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (15, '2020-08-05', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (16, '2020-08-19', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (17, '2020-09-09', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (18, '2020-09-30', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (19, '2020-10-27', 1);
-insert into [Reminder] ([Id], [DateForNextLevel], [Completed]) values (20, '2020-12-03', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (1, 1, '2019-12-16', 0);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (2, 1, '2019-12-17', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (3, 1, '2019-12-30', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (4, 1, '2020-01-13', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (5, 1, '2020-01-31', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (6, 1, '2020-02-12', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (7, 1, '2020-02-25', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (8, 1, '2020-03-17', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (9, 1, '2020-04-06', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (10, 1, '2020-04-30', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (11, 1, '2020-05-26', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (12, 1, '2020-06-24', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (13, 1, '2020-07-08', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (14, 1, '2020-07-15', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (15, 1, '2020-08-05', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (16, 1, '2020-08-19', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (17, 1, '2020-09-09', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (18, 1, '2020-09-30', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (19, 1, '2020-10-27', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (20, 1, '2020-12-03', 1);
+insert into [Reminder] ([Id], [WarfarinUserId], [DateForNextLevel], [Completed]) values (21, 1, '2021-01-12', 0);
 set identity_insert [Reminder] off
 
 --Dose

@@ -20,14 +20,14 @@ namespace ChartINR.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT TOP 1 re.Id, re.DateForNextLevel, re.Completed
+                         SELECT TOP 1 re.Id, re.WarfarinUserId, re.DateForNextLevel, re.Completed
 
                          FROM Reminder re
-                         LEFT JOIN Level l ON l.ReminderId = re.Id
-                         LEFT JOIN INRRange ra ON l.INRRangeId = ra.Id
+                        
     
-                         WHERE ra.WarfarinUserId = @warfarinUserId AND re.Completed = 0
+                         WHERE re.WarfarinUserId = @warfarinUserId AND re.Completed = 0
                          ORDER BY re.Id DESC
+
                         ";
                     cmd.Parameters.AddWithValue("@warfarinUserId", id);
                     var reader = cmd.ExecuteReader();
@@ -38,6 +38,7 @@ namespace ChartINR.Repositories
                         reminder = new Reminder()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
+                            WarfarinUserId = DbUtils.GetInt(reader, "WarfarinUserId"),
                             DateForNextLevel = DbUtils.GetDateTime(reader, "DateForNextLevel"),
                             Completed = DbUtils.GetInt(reader, "Completed")
 
