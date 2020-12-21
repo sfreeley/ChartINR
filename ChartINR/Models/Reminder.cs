@@ -11,5 +11,6 @@ namespace ChartINR.Models
         public int WarfarinUserId { get; set; }
         public DateTime DateForNextLevel { get; set; }
         public int Completed { get; set; }
+        public int IsDeleted { get; set; }
     }
 }

@@ -27,10 +27,21 @@ namespace ChartINR.Controllers
             return Ok(_reminderRepository.GetMostRecentReminder(id));
         }
 
+        [HttpPut("delete/{id}")]
+        public ActionResult Delete(int id)
+        {
+
+            _reminderRepository.DeleteReminder(id);
+
+
+            return NoContent();
+        }
+
         [HttpPost]
         public IActionResult PostDate(Reminder reminder)
         {
             reminder.Completed = 0;
+            reminder.IsDeleted = 0;
             _reminderRepository.PostDate(reminder);
             return CreatedAtAction("Get", new { id = reminder.Id }, reminder);
 

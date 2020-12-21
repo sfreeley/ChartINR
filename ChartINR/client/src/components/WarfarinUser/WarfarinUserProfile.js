@@ -8,7 +8,7 @@ import { WarfarinUserContext } from "../../providers/WarfarinUserProvider";
 import { RangeContext } from "../../providers/RangeProvider";
 
 const WarfarinUserProfile = () => {
-    const { getMostRecentReminder } = useContext(ReminderContext);
+    const { getMostRecentReminder, deleteReminder } = useContext(ReminderContext);
     const { getMostRecentLevel } = useContext(LevelContext);
     const { getWarfarinUserById } = useContext(WarfarinUserContext);
     const { getRangeByUserId } = useContext(RangeContext);
@@ -21,6 +21,12 @@ const WarfarinUserProfile = () => {
     //id is warfarin user's id
     const { id } = useParams();
     const history = useHistory();
+
+    async function changeDateForNextLevel() {
+        await deleteReminder(parseInt(mostRecentReminder.id))
+            .then(history.push(`/reminder/add/${id}`))
+    }
+
 
     async function getRange() {
 
@@ -110,7 +116,7 @@ const WarfarinUserProfile = () => {
                 <ToastBody>
 
                     {mostRecentReminder.dateForNextLevel === undefined ? null : <p>Next INR Draw: {currentDate(mostRecentReminder.dateForNextLevel)}</p>}
-                    <p>{pastDueLevel ? <Link>Reschedule Next Level</Link> : oneDayUntilLevel ? <p> <strong>1</strong> day until next level</p> : timerInDays.length ? timerInDays : <Link><strong>Draw Level Today</strong></Link>}</p>
+                    <p>{pastDueLevel ? <Button onClick={changeDateForNextLevel}>Past Due: Reschedule Next Level</Button> : oneDayUntilLevel ? <p> <strong>1</strong> day until next level</p> : timerInDays.length ? timerInDays : !mostRecentReminder ? null : <Link><strong>Draw Level Today</strong></Link>}</p>
                 </ToastBody>
             </Toast>
             <Toast>

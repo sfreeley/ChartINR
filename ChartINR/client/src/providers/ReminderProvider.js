@@ -7,20 +7,6 @@ export function ReminderProvider(props) {
     const apiUrl = "/api/reminder"
     const { getToken } = useContext(UserProfileContext)
 
-
-    // const getReminders = (userProfileId) => {
-    //     return getToken().then((token) => fetch(`${apiUrl}/userprofile/${userProfileId}`, {
-    //         method: "GET",
-    //         headers: {
-    //             Authorization: `Bearer ${token}`
-
-    //         },
-
-    //     }).then(resp => resp.json()).then(setReminders)
-
-    //     )
-    // };
-
     const getMostRecentReminder = (warfarinUserId) => {
         return getToken().then((token) => fetch(`${apiUrl}/mostrecent/${warfarinUserId}`, {
             method: "GET",
@@ -31,6 +17,18 @@ export function ReminderProvider(props) {
         }).then((resp) => {
             return resp.status === 200 && resp.json()
         }));
+    };
+
+    const deleteReminder = (id) => {
+        return getToken().then((token) => fetch(`${apiUrl}/delete/${id}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            }
+
+        })
+        )
     };
 
     const addReminder = (reminder) => {
@@ -48,7 +46,7 @@ export function ReminderProvider(props) {
 
     return (
 
-        <ReminderContext.Provider value={{ getMostRecentReminder, addReminder }}>
+        <ReminderContext.Provider value={{ getMostRecentReminder, addReminder, deleteReminder }}>
             {props.children}
         </ReminderContext.Provider>
     );

@@ -20,12 +20,12 @@ namespace ChartINR.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT TOP 1 re.Id, re.WarfarinUserId, re.DateForNextLevel, re.Completed
+                         SELECT TOP 1 re.Id, re.WarfarinUserId, re.DateForNextLevel, re.Completed, re.IsDeleted
 
                          FROM Reminder re
                         
     
-                         WHERE re.WarfarinUserId = @warfarinUserId AND re.Completed = 0
+                         WHERE re.WarfarinUserId = @warfarinUserId AND re.Completed = 0 AND re.IsDeleted = 0
                          ORDER BY re.Id DESC
 
                         ";
@@ -57,6 +57,28 @@ namespace ChartINR.Repositories
 
         }
 
+        public void DeleteReminder(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE Reminder
+                            SET  
+                               IsDeleted = @isDeleted
+                            WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@isDeleted", 1);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void PostDate(Reminder reminder)
         {
             using (var conn = Connection)
@@ -65,12 +87,13 @@ namespace ChartINR.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Reminder ( WarfarinUserId, DateForNextLevel, Completed )
+                        INSERT INTO Reminder ( WarfarinUserId, DateForNextLevel, Completed, IsDeleted )
                         OUTPUT INSERTED.ID
-                        VALUES ( @WarfarinUserId, @DateForNextLevel, @Completed )";
+                        VALUES ( @WarfarinUserId, @DateForNextLevel, @Completed, @IsDeleted )";
                     DbUtils.AddParameter(cmd, "@WarfarinUserId", reminder.WarfarinUserId);
                     DbUtils.AddParameter(cmd, "@DateForNextLevel", reminder.DateForNextLevel);
                     DbUtils.AddParameter(cmd, "@Completed", reminder.Completed);
+                    DbUtils.AddParameter(cmd, "@IsDeleted", reminder.IsDeleted);
 
                     reminder.Id = (int)cmd.ExecuteScalar();
                 }

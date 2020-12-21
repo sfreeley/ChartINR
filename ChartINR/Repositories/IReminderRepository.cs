@@ -6,5 +6,6 @@ namespace ChartINR.Repositories
     {
         void PostDate(Reminder reminder);
         Reminder GetMostRecentReminder(int id);
+        void DeleteReminder(int id);
     }
 }

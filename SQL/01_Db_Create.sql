@@ -57,7 +57,8 @@ CREATE TABLE [Reminder] (
   [Id] integer PRIMARY KEY IDENTITY,
   [WarfarinUserId] integer NOT NULL,
   [DateForNextLevel] datetime NOT NULL,
-  [Completed] integer NOT NULL, 
+  [Completed] integer NOT NULL,
+  [IsDeleted] integer NOT NULL,
   
   CONSTRAINT [FK_Reminder_WarfarinUser] FOREIGN KEY ([WarfarinUserId]) REFERENCES [WarfarinUser] ([Id])
 )
