@@ -15,10 +15,9 @@ const WarfarinUserProfile = () => {
 
     const [mostRecentLevel, setMostRecentLevel] = useState({ warfarinUser: {}, dose: {}, result: 0, inrRange: { minLevel: 0, maxLevel: 0 } });
     const [mostRecentReminder, setMostRecentReminder] = useState({});
-    console.log(mostRecentReminder);
     const [warfarinUser, setWarfarinUser] = useState({});
     const [range, setRange] = useState({ minLevel: 0, maxLevel: 0 });
-    console.log(range)
+
     //id is warfarin user's id
     const { id } = useParams();
     const history = useHistory();
@@ -44,13 +43,61 @@ const WarfarinUserProfile = () => {
         getUser();
         getRecentReminder();
         getRange();
-        getRecentReminder();
         getRecentLevel();
 
     }, [id])
 
     if (!mostRecentLevel) return null;
     if (!range) return null;
+
+    const calculateTimeLeftUntilNextLevel = () => {
+        let dt1 = new Date(mostRecentReminder.dateForNextLevel);
+        let dt2 = new Date();
+
+        let difference = +dt1 - +dt2
+        let timeLeftUntilDate = {}
+
+
+        if (difference > 0 || difference < 0) {
+            timeLeftUntilDate = {
+                days: Math.ceil(difference / (1000 * 60 * 60 * 24)),
+            }
+        }
+
+        return timeLeftUntilDate
+
+    }
+
+    const [timeLeftUntilDate, setTimeLeftUntilDate] = useState(calculateTimeLeftUntilNextLevel());
+    console.log(timeLeftUntilDate)
+    const pastDueLevel = timeLeftUntilDate.days <= -1;
+    const timerInDays = [];
+
+    //every time timeLeftUntilDate is updated in state, useEffect will fire
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setTimeLeftUntilDate(calculateTimeLeftUntilNextLevel());
+        }, 1000);
+        // runs every time useEffect runs except first run and will clear the timer if component is not mounted
+        return () => clearTimeout(timer);
+    });
+
+    //iterate through the keys of the timeLeftUntilDate object (ie days)
+    //if the property of days in the timeLeftUntilDate does not have valid value, return, else push the following jsx
+    //into timerInDays array 'value of days property' 'days' 'until refill or renewal'
+    const oneDayUntilLevel = timeLeftUntilDate.days === 1;
+    Object.keys(timeLeftUntilDate).forEach((interval) => {
+        if (!timeLeftUntilDate[interval]) {
+            return
+        }
+
+        timerInDays.push(
+            <span key={mostRecentReminder.id}>
+                <strong>{timeLeftUntilDate[interval]}</strong> {interval} {`until next level`}
+            </span>
+        )
+
+    })
 
 
     return (
@@ -63,6 +110,7 @@ const WarfarinUserProfile = () => {
                 <ToastBody>
 
                     {mostRecentReminder.dateForNextLevel === undefined ? null : <p>Next INR Draw: {currentDate(mostRecentReminder.dateForNextLevel)}</p>}
+                    <p>{pastDueLevel ? <Link>Reschedule Next Level</Link> : oneDayUntilLevel ? <p> <strong>1</strong> day until next level</p> : timerInDays.length ? timerInDays : <Link><strong>Draw Level Today</strong></Link>}</p>
                 </ToastBody>
             </Toast>
             <Toast>

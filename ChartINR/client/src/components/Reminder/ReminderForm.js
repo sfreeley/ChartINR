@@ -10,14 +10,6 @@ const ReminderForm = () => {
     const { id } = useParams();
     const [dateForNextLevel, setDate] = useState();
 
-
-    // useEffect(() => {
-    //     getRangeByUserId(parseInt(id)).then((range) => {
-    //         setMinLevel(range.minLevel);
-    //         setMaxLevel(range.maxLevel);
-    //     })
-    // }, [])
-
     const submitReminder = (e) => {
 
         e.preventDefault();
