@@ -4,7 +4,8 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import LevelList from "./Level/LevelList";
 import Login from "./Authentication/Login";
 import Register from "./Authentication/Register";
-import AddRangeForm from "./Range/AddRangeForm";
+import RangeForm from "./Range/RangeForm";
+import LevelForm from "./Level/LevelForm";
 import WarfarinUserList from "./WarfarinUser/WarfarinUserList";
 import WarfarinUserProfile from "./WarfarinUser/WarfarinUserProfile";
 import WarfarinUserForm from "./WarfarinUser/WarfarinUserForm";
@@ -28,11 +29,14 @@ export default function ApplicationViews() {
                 <Route path="/users">
                     {isLoggedIn ? <WarfarinUserList /> : <Redirect to="/login" />}
                 </Route>
+                <Route path="/level/add/:id">
+                    {isLoggedIn ? <LevelForm /> : <Redirect to="/login" />}
+                </Route>
                 <Route path="/levels/:id">
                     {isLoggedIn ? <LevelList /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/range/:id">
-                    {isLoggedIn ? <AddRangeForm /> : <Redirect to="/login" />}
+                    {isLoggedIn ? <RangeForm /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/login">
                     <Login />

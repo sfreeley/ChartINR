@@ -27,9 +27,7 @@ const WarfarinUserProfile = () => {
             .then(history.push(`/reminder/add/${id}`))
     }
 
-
     async function getRange() {
-
         await getRangeByUserId(parseInt(id)).then(setRange)
     }
 
@@ -50,7 +48,6 @@ const WarfarinUserProfile = () => {
         getRecentReminder();
         getRange();
         getRecentLevel();
-
     }, [id])
 
     if (!mostRecentLevel) return null;
@@ -116,7 +113,7 @@ const WarfarinUserProfile = () => {
                 <ToastBody>
 
                     {mostRecentReminder.dateForNextLevel === undefined ? null : <p>Next INR Draw: {currentDate(mostRecentReminder.dateForNextLevel)}</p>}
-                    <p>{pastDueLevel ? <Button onClick={changeDateForNextLevel}>Past Due: Reschedule Next Level</Button> : oneDayUntilLevel ? <p> <strong>1</strong> day until next level</p> : timerInDays.length ? timerInDays : !mostRecentReminder ? null : <Link><strong>Draw Level Today</strong></Link>}</p>
+                    <p>{pastDueLevel ? <Button onClick={changeDateForNextLevel}>Past Due: Reschedule Next Level</Button> : oneDayUntilLevel ? <p> <strong>1</strong> day until next level</p> : timerInDays.length ? timerInDays : !mostRecentReminder ? null : <Link to={`/level/add/${id}`}><strong>Draw Level Today</strong></Link>}</p>
                 </ToastBody>
             </Toast>
             <Toast>

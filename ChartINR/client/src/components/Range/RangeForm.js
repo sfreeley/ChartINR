@@ -3,7 +3,7 @@ import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { useParams, useHistory } from "react-router-dom";
 import { RangeContext } from "../../providers/RangeProvider";
 
-const AddRangeForm = () => {
+const RangeForm = () => {
     const { updateRange, getRangeByUserId } = useContext(RangeContext);
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
@@ -78,4 +78,4 @@ const AddRangeForm = () => {
 
 }
 
-export default AddRangeForm;
+export default RangeForm;
