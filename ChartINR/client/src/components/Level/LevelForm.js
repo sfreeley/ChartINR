@@ -3,17 +3,21 @@ import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { useParams, useHistory } from "react-router-dom";
 import { RangeContext } from "../../providers/RangeProvider";
 import { ReminderContext } from "../../providers/ReminderProvider";
+import { DoseContext } from "../../providers/DoseProvider";
 import { LevelContext } from "../../providers/LevelProvider";
+import { currentDateFormat } from "../Helper/HelperFunctions";
 
 const LevelForm = () => {
     const { getRangeByUserId } = useContext(RangeContext);
     const { getMostRecentReminder } = useContext(ReminderContext);
+    const { getActiveDose } = useContext(DoseContext);
     const { addLevel } = useContext(LevelContext);
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
     const { id } = useParams();
-    const [range, setRange] = useState();
-    const [reminder, setReminder] = useState();
+    const [range, setRange] = useState({ minLevel: 0, maxLevel: 0 });
+    const [dose, setDose] = useState({});
+    const [reminder, setReminder] = useState({});
     const [dateDrawn, setDateDrawn] = useState();
     const [comment, setComment] = useState();
     const [result, setResult] = useState();
@@ -24,12 +28,20 @@ const LevelForm = () => {
     }
 
     async function getReminder() {
-        await getMostRecentReminder(parseInt(id)).then((reminder) => setReminder(reminder))
+        await getMostRecentReminder(parseInt(id)).then((reminder) => {
+            setReminder(reminder)
+            setDateDrawn(reminder.dateForNextLevel)
+        })
+    }
+
+    async function getDose() {
+        await getActiveDose(parseInt(id)).then((dose) => setDose(dose))
     }
 
     useEffect(() => {
         getRange();
         getReminder();
+        getDose();
     }, [])
 
     const submitLevel = (e) => {
@@ -37,15 +49,16 @@ const LevelForm = () => {
         e.preventDefault();
         setIsLoading(true);
 
-        // const level = {
-        //     rangeId:
-        //         doseId:
-        //     dateDrawn:
-        //         comment,
-        //     result,
-        //     inRange
+        const level = {
+            rangeId: range.id,
+            doseId: dose.id,
+            reminderId: reminder.id,
+            dateDrawn: reminder.dateForNextLevel,
+            comment,
+            result,
+            inRange
 
-        // };
+        };
 
         if (minLevel === 0 || maxLevel === 0) {
             alert("Please fill out all fields before submitting")
@@ -59,33 +72,50 @@ const LevelForm = () => {
 
     }
 
+    if (!range) return null;
+    if (!dose) return null;
+
     return (
         <div className="postForm--container">
             <div className="postFormSecondary--container">
+                Target INR: <p>{range.minLevel.toFixed(1)} to {range.maxLevel.toFixed(1)} </p>
+                Current Weekly Dose: <p>{dose.weeklyDose}</p>
+                Date of Draw: <p>{currentDateFormat(dateDrawn)}</p>
                 <Form className="postForm" responsive="true">
                     <fieldset>
                         <FormGroup>
-                            <Label className="INRRange"><strong>Set INR Range</strong></Label>
+                            <Label className="resultINR"><strong>Result</strong></Label>
                             <Input
                                 className=""
-                                onChange={(e) => setMinLevel(parseFloat(e.target.value))}
+                                onChange={(e) => setResult(e.target.value)}
                                 type="text"
-                                id="minLevel"
-                                placeholder="Enter Minimum INR Value"
+                                id="result"
+                                placeholder="Enter Today's Level"
                             />
                         </FormGroup>
-                        to
+
                         <FormGroup>
+                            <Label className="commentINR"><strong>Comments (optional)</strong></Label>
                             <Input
                                 className="INRRange"
-                                onChange={(e) => setMaxLevel(parseFloat(e.target.value))}
-                                type="text"
-                                id="maxLevel"
-                                placeholder="Enter Maximum INR Value"
+                                onChange={(e) => setComment(e.target.value)}
+                                type="textarea"
+                                id="comment"
+                            />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label className="inRangeINR"><strong>Was this level in range?</strong></Label>
+                            <Input
+                                className="INRRange"
+                                onChange={(e) => setComment(e.target.value)}
+                                type="textarea"
+                                id="comment"
+                            // placeholder="Enter Maximum INR Value"
                             />
                         </FormGroup>
                     </fieldset>
-                    <Button onClick={submitRange}>Record</Button>
+                    <Button onClick={submitLevel}>Record</Button>
                 </Form>
             </div>
         </div>

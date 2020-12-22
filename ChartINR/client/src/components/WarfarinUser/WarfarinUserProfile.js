@@ -60,7 +60,6 @@ const WarfarinUserProfile = () => {
         let difference = +dt1 - +dt2
         let timeLeftUntilDate = {}
 
-
         if (difference > 0 || difference < 0) {
             timeLeftUntilDate = {
                 days: Math.ceil(difference / (1000 * 60 * 60 * 24)),
@@ -106,16 +105,18 @@ const WarfarinUserProfile = () => {
     return (
         <>
             <h4>{warfarinUser.lastName}, {warfarinUser.firstName} Profile</h4>
-            <Toast>
-                <ToastHeader>
-                    {mostRecentReminder.dateForNextLevel === undefined ? <Link to={`/reminder/add/${id}`}>Add Reminder</Link> : null}
-                </ToastHeader>
-                <ToastBody>
+            {!getMostRecentLevel.dose ? null :
+                <Toast>
+                    <ToastHeader>
+                        {mostRecentReminder.dateForNextLevel === undefined ? <Link to={`/reminder/add/${id}`}>Add Reminder</Link> : null}
+                    </ToastHeader>
+                    <ToastBody>
 
-                    {mostRecentReminder.dateForNextLevel === undefined ? null : <p>Next INR Draw: {currentDate(mostRecentReminder.dateForNextLevel)}</p>}
-                    <p>{pastDueLevel ? <Button onClick={changeDateForNextLevel}>Past Due: Reschedule Next Level</Button> : oneDayUntilLevel ? <p> <strong>1</strong> day until next level</p> : timerInDays.length ? timerInDays : !mostRecentReminder ? null : <Link to={`/level/add/${id}`}><strong>Draw Level Today</strong></Link>}</p>
-                </ToastBody>
-            </Toast>
+                        {mostRecentReminder.dateForNextLevel === undefined ? null : <p>Next INR Draw: {currentDate(mostRecentReminder.dateForNextLevel)}</p>}
+                        <p>{pastDueLevel ? <Button onClick={changeDateForNextLevel}>Past Due: Reschedule Next Level</Button> : oneDayUntilLevel ? <p> <strong>1</strong> day until next level</p> : timerInDays.length ? timerInDays : !mostRecentReminder ? null : <Link to={`/level/add/${id}`}><strong>Draw Level Today</strong></Link>}</p>
+                    </ToastBody>
+                </Toast>
+            }
             <Toast>
                 <ToastHeader>
                     {<Link to="/dose/add">Add Dose</Link>}

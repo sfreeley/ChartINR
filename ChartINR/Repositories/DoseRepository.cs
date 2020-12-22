@@ -8,39 +8,24 @@ using System.Threading.Tasks;
 
 namespace ChartINR.Repositories
 {
-    public class DoseRepository : BaseRepository
+    public class DoseRepository : BaseRepository, IDoseRepository
     {
         public DoseRepository(IConfiguration config) : base(config) { }
         public Dose GetActiveDose(int id)
         {
-           
+
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT TOP 1 l.Id AS LevelId, l.INRRangeId, l.DoseId AS DoseId, l.ReminderId AS ReminderId, l.DateDrawn, l.Result, l.Comment, l.InRange,
+                         SELECT TOP 1 d.Id, d.WarfarinUserId, d.DateInput, d.WeeklyDose, d.IsActive
 
-                         up.Id AS UserProfileId, up.Username,
-
-                         ra.WarfarinUserId, ra.MinLevel, ra.MaxLevel, ra.IsActive AS RangeIsActive,
-
-                         re.DateForNextLevel, re.Completed,
-
-                         wu.FirstName, wu.LastName,
-
-                         d.DateInput, d.WeeklyDose, d.IsActive AS DoseIsActive
-
-                         FROM Level l
-                         LEFT JOIN Reminder re ON l.ReminderId = re.Id
-                         LEFT JOIN INRRange ra ON l.INRRangeId = ra.Id 
-                         LEFT JOIN Dose d ON l.DoseId = d.Id
-                         LEFT JOIN WarfarinUser wu ON d.WarfarinUserId = wu.Id
-                         LEFT JOIN UserProfile up ON wu.UserProfileId = up.Id
-                             
-                         WHERE wu.Id = @warfarinUserId AND ra.IsActive = 1 AND re.Id IS NOT NULL
-                         ORDER BY l.Id DESC
+                         FROM Dose d
+       
+                         WHERE d.WarfarinUserId = @warfarinUserId AND d.IsActive = 1
+                         ORDER BY d.Id DESC
                         ";
                     cmd.Parameters.AddWithValue("@warfarinUserId", id);
                     var reader = cmd.ExecuteReader();
@@ -51,7 +36,10 @@ namespace ChartINR.Repositories
                         dose = new Dose()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-
+                            WarfarinUserId = DbUtils.GetInt(reader, "WarfarinUserId"),
+                            DateInput = DbUtils.GetDateTime(reader, "DateInput"),
+                            WeeklyDose = DbUtils.GetString(reader, "WeeklyDose"),
+                            IsActive = DbUtils.GetInt(reader, "IsActive")
                         };
                     }
 

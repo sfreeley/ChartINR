@@ -8,7 +8,7 @@ namespace ChartINR.Models
     public class Dose
     {
         public int Id { get; set; }
-        public int UserProfileId { get; set; }
+        public int WarfarinUserId { get; set; }
         public DateTime DateInput {get; set;}
         public string WeeklyDose { get; set; }
         public int IsActive { get; set; }

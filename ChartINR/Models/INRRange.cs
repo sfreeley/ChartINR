@@ -16,5 +16,6 @@ namespace ChartINR.Models
         public double MaxLevel { get; set; }
 
         public int IsActive { get; set; }
+
     }
 }
